@@ -2,31 +2,30 @@
 #include <iostream>
 using namespace std;
 
-void signal_handler1(int signal_num)
+void signal_handler_interrupt(int signal_num)
 {
-    cout << "Received signal " << signal_num << ", shutting down gracefully..." << endl;
+    cout << "Sinal de Interrupt recebido " << signal_num << endl;
     exit(signal_num);
 }
 
-void signal_handler2(int signal_num)
+void signal_handler_floating_point(int signal_num)
 {
-    cout << "Received signal " << signal_num << ", ignoring signal..." << endl;
+    cout << "Sinal de Floating Point recebido " << signal_num << endl;
 }
 
-void signal_handler3(int signal_num)
+void signal_handler_segmentation_fault(int signal_num)
 {
-    cout << "Received signal " << signal_num << ", doing some cleanup..." << endl;
+    cout << "Sinal de Segmentation Fault recebido" << signal_num << endl;
 }
 
 int main()
 {
+    signal(SIGINT, signal_handler_interrupt);
+    signal(SIGFPE, signal_handler_floating_point);
+    signal(SIGSEGV, signal_handler_segmentation_fault);
+
     int wait_type;
-
-    signal(SIGINT, signal_handler1);
-    signal(SIGUSR1, signal_handler2);
-    signal(SIGUSR2, signal_handler3);
-
-    cout << "Type 0 for busy waits or type 1 for block waits." << endl;
+    cout << "Digite 0 para Busy Wait e Digite 1 para Block Wait" << endl;
     cin >> wait_type;
 
     if (wait_type == 0)
@@ -34,7 +33,7 @@ int main()
         cout << "Busy wait..." << endl;
         while (true)
         {
-            sleep(1); // Wait for 1 second
+            sleep(1);
         }
     }
     else if (wait_type == 1)
