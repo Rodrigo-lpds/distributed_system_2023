@@ -4,18 +4,18 @@ using namespace std;
 
 void signal_handler_interrupt(int signal_num)
 {
-    cout << "Sinal de Interrupt recebido " << signal_num << endl;
+    cout << "Sinal de Interrupt recebido " << signal_num << endl; // 2
     exit(signal_num);
 }
 
 void signal_handler_floating_point(int signal_num)
 {
-    cout << "Sinal de Floating Point recebido " << signal_num << endl;
+    cout << "Sinal de Floating Point recebido " << signal_num << endl //8 
 }
 
 void signal_handler_segmentation_fault(int signal_num)
 {
-    cout << "Sinal de Segmentation Fault recebido" << signal_num << endl;
+    cout << "Sinal de Segmentation Fault recebido " << signal_num << endl; //11
 }
 
 int main()

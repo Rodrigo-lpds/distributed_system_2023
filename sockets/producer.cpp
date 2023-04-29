@@ -9,6 +9,11 @@ int main(int argc, char const *argv[])
     int sock = 0;
     struct sockaddr_in serv_addr;
     char buffer[1024] = {0};
+    int n;
+    int random_number;
+    int times = 0;
+    std::cout << "Type the number of times the program will run: ";
+    std::cin >> n;
 
     if ((sock = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
@@ -32,8 +37,16 @@ int main(int argc, char const *argv[])
     }
     while (true)
     {
-        srand(time(nullptr));
-        int random_number = rand() % 100;
+        if (times == n)
+        {
+            random_number = 0;
+        }
+        else
+        {
+            srand(time(nullptr));
+            random_number = rand() % 100;
+            times++;
+        }
         std::string message = std::to_string(random_number);
 
         if (send(sock, message.c_str(), message.length(), 0) < 0)
@@ -41,7 +54,7 @@ int main(int argc, char const *argv[])
             std::cerr << "Error: failed to send message" << std::endl;
             return 1;
         }
-        std::cout << "Number sent to server" << std::endl;
+        std::cout << "Number " << random_number << " sent to server" << std::endl;
 
         int valread = read(sock, buffer, 1024);
         if (valread < 0)
