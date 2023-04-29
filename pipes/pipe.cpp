@@ -28,22 +28,21 @@ int main() {
             std::cerr << "Error: failed to fork" << std::endl;
             return 1;
         } else if (pid == 0) {
-            // Child process. aka the consumer
-            close(pipefd[1]); // Close unused write end
+            // Consumer
+            close(pipefd[1]);
             read(pipefd[0], buffer, sizeof(buffer));
             //n += std::stoi(buffer); 
             //calculate_prime(n);
             std::cout << "Child received message: " << buffer << std::endl;
-            close(pipefd[0]); // Close read end
+            close(pipefd[0]);
             return 0;
         } else {
-            // Parent process aka the producer
-            close(pipefd[0]); // Close unused read end
-            //std::string message = "Hello from parent";
+            // Producer
+            close(pipefd[0]); 
             srand(time(0));
             std::string message = std::to_string(rand() % 100);
             write(pipefd[1], message.c_str(), message.size());
-            close(pipefd[1]); // Close write end
+            close(pipefd[1]);
         }
     }
     return 0;
